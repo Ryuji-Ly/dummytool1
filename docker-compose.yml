@@ -80,7 +80,7 @@ services:
             - NEXTAUTH_SECRET=gqtiegBqprRUhZvcMEYEiZyZYOIKsipo
             - KEYCLOAK_ISSUER=https://dummytool1.duckdns.org/auth/realms/dummytool1
             - KEYCLOAK_CLIENT_ID=dummytool1
-            - KEYCLOAK_CLIENT_SECRET=your-client-secret
+            - KEYCLOAK_CLIENT_SECRET=zt7H3jD6cnkHFqVZcsXfuzKJtMusG2Ot
         ports:
             - "3000:3000"
         depends_on:
