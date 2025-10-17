@@ -6,7 +6,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Keycloak({
       clientId: process.env.KEYCLOAK_CLIENT_ID!,
       clientSecret: process.env.KEYCLOAK_CLIENT_SECRET!,
-      issuer: process.env.KEYCLOAK_ISSUER!,
+      issuer: process.env.KEYCLOAK_ISSUER_INTERNAL!,
     }),
   ],
   callbacks: {
@@ -29,7 +29,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
   pages: {
-    signIn: "/auth/signin",
+    signIn: "/signin",
   },
   trustHost: true, // Trust all hosts (for development and production)
 });

@@ -1,13 +1,15 @@
+# ----------------------
 # Build stage
+# ----------------------
 FROM node:20 AS builder
 WORKDIR /app
 
-# Copy only package files and install dependencies first (cache friendly)
+# Copy package files and install all dependencies (including dev for TS/Tailwind)
 COPY package*.json ./
 RUN npm ci
 
-# Copy config files needed for Next.js and TypeScript
-COPY tsconfig.json next.config.ts ./
+# Copy config files needed for Next.js, Tailwind, PostCSS, and TypeScript
+COPY tsconfig.json next.config.ts postcss.config.mjs ./
 
 # Copy source and public folders
 COPY src ./src
@@ -16,16 +18,22 @@ COPY public ./public
 # Build the Next.js app
 RUN npm run build
 
+# ----------------------
 # Production stage
+# ----------------------
 FROM node:20-alpine AS runner
 WORKDIR /app
 
-# Copy only the built app and necessary files
+# Set production environment
+ENV NODE_ENV=production
+
+# Copy package files and install only production dependencies
+COPY --from=builder /app/package*.json ./
+RUN npm ci
+
+# Copy the built app and public assets
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/next.config.ts ./
-COPY --from=builder /app/tsconfig.json ./  
 
 # Expose port
 EXPOSE 3000
