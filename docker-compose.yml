@@ -48,7 +48,7 @@ services:
             KC_DB_PASSWORD: password
             KC_HOSTNAME: dummytool1.duckdns.org
             KC_HOSTNAME_STRICT: "true"
-            KC_HTTP_ENABLED: "false"
+            KC_HTTP_ENABLED: "true"
             KC_PROXY: edge
             KC_HTTP_RELATIVE_PATH: /auth
         command:
@@ -80,7 +80,7 @@ services:
             - NEXTAUTH_URL=https://dummytool1.duckdns.org
             - NEXTAUTH_SECRET=gqtiegBqprRUhZvcMEYEiZyZYOIKsipo
             - KEYCLOAK_ISSUER=https://dummytool1.duckdns.org/auth/realms/dummytool1
-            - KEYCLOAK_ISSUER_INTERNAL=http://dummytool1.duckdns.org:8080/auth/realms/dummytool1
+            - KEYCLOAK_ISSUER_INTERNAL=http://keycloak:8080/auth/realms/dummytool1
             - KEYCLOAK_CLIENT_ID=dummytool1
             - KEYCLOAK_CLIENT_SECRET=zt7H3jD6cnkHFqVZcsXfuzKJtMusG2Ot
         ports:
@@ -99,8 +99,6 @@ services:
             - "traefik.http.routers.app-http.middlewares=redirect-to-https"
         networks:
             - app-network
-        extra_hosts:
-            - "dummytool1.duckdns.org:207.180.196.188"
 
 volumes:
     postgres_data:

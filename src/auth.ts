@@ -6,7 +6,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Keycloak({
       clientId: process.env.KEYCLOAK_CLIENT_ID!,
       clientSecret: process.env.KEYCLOAK_CLIENT_SECRET!,
-      issuer: process.env.KEYCLOAK_ISSUER!,
+      issuer: process.env.KEYCLOAK_ISSUER_INTERNAL || process.env.KEYCLOAK_ISSUER!,
+      authorization: {
+        params: {
+          scope: "openid email profile",
+        },
+        url: `${process.env.KEYCLOAK_ISSUER}/protocol/openid-connect/auth`,
+      },
+      token: `${process.env.KEYCLOAK_ISSUER_INTERNAL || process.env.KEYCLOAK_ISSUER}/protocol/openid-connect/token`,
+      userinfo: `${process.env.KEYCLOAK_ISSUER_INTERNAL || process.env.KEYCLOAK_ISSUER}/protocol/openid-connect/userinfo`,
     }),
   ],
   callbacks: {
@@ -31,5 +39,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: "/signin",
   },
-  trustHost: true, // Trust all hosts (for development and production)
+  trustHost: true,
 });
