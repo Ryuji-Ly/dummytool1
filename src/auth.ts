@@ -6,19 +6,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Keycloak({
       clientId: process.env.KEYCLOAK_CLIENT_ID!,
       clientSecret: process.env.KEYCLOAK_CLIENT_SECRET!,
-      // Use HTTPS issuer (what Keycloak sends in the callback)
       issuer: process.env.KEYCLOAK_ISSUER!,
-      // But fetch well-known from internal HTTP
-      wellKnown: `${process.env.KEYCLOAK_ISSUER_INTERNAL}/.well-known/openid-configuration`,
-      // Override endpoints to use internal HTTP
-      authorization: {
-        url: `${process.env.KEYCLOAK_ISSUER}/protocol/openid-connect/auth`,
-        params: {
-          scope: "openid email profile",
-        },
-      },
-      token: `${process.env.KEYCLOAK_ISSUER_INTERNAL}/protocol/openid-connect/token`,
-      userinfo: `${process.env.KEYCLOAK_ISSUER_INTERNAL}/protocol/openid-connect/userinfo`,
     }),
   ],
   callbacks: {
