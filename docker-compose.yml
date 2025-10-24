@@ -12,9 +12,19 @@ services:
             - KEYCLOAK_CLIENT_SECRET=rDW9OpOuy4kV0ZlDxcbwgapAN7Yo846m
         ports:
             - "3000:3000"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.dummytool1.rule=Host(`dummytool1.duckdns.org`)"
+            - "traefik.http.routers.dummytool1.entrypoints=websecure"
+            - "traefik.http.routers.dummytool1.tls.certresolver=myresolver"
+            - "traefik.http.services.dummytool1.loadbalancer.server.port=3000"
+            - "traefik.http.routers.dummytool1-http.rule=Host(`dummytool1.duckdns.org`)"
+            - "traefik.http.routers.dummytool1-http.entrypoints=web"
+            - "traefik.http.routers.dummytool1-http.middlewares=redirect-to-https"
         networks:
-            - keycloak_keycloak-network
+            - keycloakucll_keycloak-network
 
 networks:
-    keycloak_keycloak-network:
+    keycloakucll_keycloak-network:
         external: true
+
