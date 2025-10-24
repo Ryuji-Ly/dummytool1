@@ -1,27 +1,4 @@
 services:
-    traefik:
-        image: traefik:v3.1
-        container_name: dummytool1-traefik
-        restart: unless-stopped
-        command:
-            - --api.dashboard=true
-            - --providers.docker=true
-            - --providers.docker.exposedbydefault=false
-            - --entrypoints.web.address=:80
-            - --entrypoints.websecure.address=:443
-            - --certificatesresolvers.myresolver.acme.httpchallenge=true
-            - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
-            - --certificatesresolvers.myresolver.acme.email=alankim017@gmail.com
-            - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
-        ports:
-            - "8081:80"
-            - "444:443"
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock:ro
-            - ./letsencrypt:/letsencrypt
-        networks:
-            - app-network
-
     app:
         build: .
         container_name: dummytool1
@@ -38,20 +15,16 @@ services:
             - "3000:3000"
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.app.rule=Host(`dummytool1.duckdns.org`)"
-            - "traefik.http.routers.app.entrypoints=websecure"
-            - "traefik.http.routers.app.tls.certresolver=myresolver"
-            - "traefik.http.services.app.loadbalancer.server.port=3000"
-            - "traefik.http.routers.app-http.rule=Host(`dummytool1.duckdns.org`)"
-            - "traefik.http.routers.app-http.entrypoints=web"
-            - "traefik.http.routers.app-http.middlewares=redirect-to-https"
-            - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+            - "traefik.http.routers.dummytool1.rule=Host(`dummytool1.duckdns.org`)"
+            - "traefik.http.routers.dummytool1.entrypoints=websecure"
+            - "traefik.http.routers.dummytool1.tls.certresolver=myresolver"
+            - "traefik.http.services.dummytool1.loadbalancer.server.port=3000"
+            - "traefik.http.routers.dummytool1-http.rule=Host(`dummytool1.duckdns.org`)"
+            - "traefik.http.routers.dummytool1-http.entrypoints=web"
+            - "traefik.http.routers.dummytool1-http.middlewares=redirect-to-https"
         networks:
-            - app-network
-
-volumes:
-    letsencrypt:
+            - keycloakucll_keycloak-network
 
 networks:
-    app-network:
-        driver: bridge
+    keycloakucll_keycloak-network:
+        external: true
