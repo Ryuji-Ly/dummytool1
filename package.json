@@ -3,19 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@auth/core": "^0.41.0",
-    "@module-federation/nextjs-mf": "^8.8.45",
+    "@module-federation/runtime": "^0.21.2",
     "keycloak-js": "^26.2.1",
     "next": "15.5.5",
     "next-auth": "^5.0.0-beta.29",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "webpack": "^5.102.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
