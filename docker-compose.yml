@@ -22,9 +22,3 @@ services:
             - "traefik.http.routers.dummytool1-http.rule=Host(`dummytool1.duckdns.org`)"
             - "traefik.http.routers.dummytool1-http.entrypoints=web"
             - "traefik.http.routers.dummytool1-http.middlewares=redirect-to-https"
-        networks:
-            - keycloakucll_keycloak-network
-
-networks:
-    keycloakucll_keycloak-network:
-        external: true
