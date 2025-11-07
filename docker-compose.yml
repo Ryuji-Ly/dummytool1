@@ -23,7 +23,10 @@ services:
             - app-network
 
     app:
-        build: .
+        build:
+            context: .
+            args:
+                - NEXT_PUBLIC_BACKEND_URL=https://back-end-team32-wpp-team-32.apps.okd.ucll.cloud
         container_name: dummytool1
         restart: unless-stopped
         environment:
