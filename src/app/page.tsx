@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import AuthButton from "@/components/AuthButton";
+import Link from "next/link";
 
 export default async function Home() {
   const session = await auth();
@@ -17,6 +18,13 @@ export default async function Home() {
         <h1 className="text-4xl font-bold">
           {isAuthenticated ? `Welcome, ${userName}!` : "Welcome to Dummy Tool 1"}
         </h1>
+
+        <Link
+          href="/users"
+          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+        >
+          Manage Users
+        </Link>
         
         {isAuthenticated ? (
           <div className="flex flex-col gap-4 p-6 rounded-lg border border-solid border-black/[.08] dark:border-white/[.145] bg-white/[.05] dark:bg-black/[.05]">

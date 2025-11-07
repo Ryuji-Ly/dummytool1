@@ -6,11 +6,11 @@ services:
         environment:
             - NODE_ENV=production
             - NEXTAUTH_URL=https://dummytool1.duckdns.org
+            - NEXT_PUBLIC_BACKEND_URL=https://back-end-team32-wpp-team-32.apps.okd.ucll.cloud
             - NEXTAUTH_SECRET=gqtiegBqprRUhZvcMEYEiZyZYOIKsipo
-            - KEYCLOAK_ISSUER=https://keycloakucll.duckdns.org/realms/ucll
+            - KEYCLOAK_ISSUER=https://keycloak-wpp-team-32.apps.okd.ucll.cloud/realms/ucll
             - KEYCLOAK_CLIENT_ID=dummytool1
-            - KEYCLOAK_CLIENT_SECRET=rDW9OpOuy4kV0ZlDxcbwgapAN7Yo846m
-            - NODE_TLS_REJECT_UNAUTHORIZED=0
+            - KEYCLOAK_CLIENT_SECRET=SvKLah10W0IxEsyRchuGoh0O38g8712L
         ports:
             - "3000:3000"
         labels:
