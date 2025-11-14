@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import UserEditor from './UserEditor';
 
 interface User {
@@ -13,6 +14,7 @@ export default function UserList() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { data: session } = useSession();
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -24,11 +26,21 @@ export default function UserList() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${backendUrl}/users`);
+      const token = (session as any)?.accessToken;
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      const response = await fetch(`${backendUrl}/users`, { headers });
       if (!response.ok) {
         throw new Error('Failed to fetch users');
       }
       const data = await response.json();
+      console.log('Fetched users:', data);
       setUsers(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -47,11 +59,18 @@ export default function UserList() {
 
   const handleUpdate = async (updatedUser: User) => {
     try {
+      const token = (session as any)?.accessToken;
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
       const response = await fetch(`${backendUrl}/users/${updatedUser.id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify(updatedUser),
       });
 
